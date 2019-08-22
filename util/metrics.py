@@ -113,12 +113,10 @@ print(C_FORMAT_LINE.format(
     "", "files", "';'", "todos", "code", "comment", "empty", "total"))
 c_metrics("vm",       ["src/vm", "src/include"])
 c_metrics("optional", ["src/optional"])
-c_metrics("cli",      ["src/cli", "src/module"])
 
 print()
 print(WREN_FORMAT_LINE.format(
     "", "files", "todos", "code", "expects", "empty", "total"))
 wren_metrics("core",      ["src/vm"])
 wren_metrics("optional",  ["src/optional"])
-wren_metrics("cli",       ["src/module"])
 wren_metrics("test",      ["test"])
