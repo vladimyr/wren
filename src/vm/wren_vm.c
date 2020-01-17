@@ -1767,7 +1767,7 @@ void wrenGetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot)
   vm->apiStack[valueSlot] = value;
 }
 
-void wrenInsertInMap(WrenVM* vm, int mapSlot, int keySlot, int valueSlot)
+void wrenSetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot)
 {
   validateApiSlot(vm, mapSlot);
   validateApiSlot(vm, keySlot);
