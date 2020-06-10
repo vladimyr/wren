@@ -474,6 +474,9 @@ void wrenGetListElement(WrenVM* vm, int listSlot, int index, int elementSlot);
 // an element, use `-1` for the index.
 void wrenInsertInList(WrenVM* vm, int listSlot, int index, int elementSlot);
 
+// Returns the number of entries in the map stored in [slot].
+int wrenGetMapCount(WrenVM* vm, int slot);
+
 // Retrieves a value with the key in [keySlot] from the map in [mapSlot] and stores it in
 // [valueSlot].
 void wrenGetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot);

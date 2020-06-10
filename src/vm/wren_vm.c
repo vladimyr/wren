@@ -1751,6 +1751,15 @@ void wrenInsertInList(WrenVM* vm, int listSlot, int index, int elementSlot)
   wrenListInsert(vm, list, vm->apiStack[elementSlot], index);
 }
 
+int wrenGetMapCount(WrenVM* vm, int slot)
+{
+  validateApiSlot(vm, slot);
+  ASSERT(IS_MAP(vm->apiStack[slot]), "Slot must hold a map.");
+
+  ObjMap* map = AS_MAP(vm->apiStack[slot]);
+  return map->count;
+}
+
 void wrenGetMapValue(WrenVM* vm, int mapSlot, int keySlot, int valueSlot)
 {
   validateApiSlot(vm, mapSlot);
