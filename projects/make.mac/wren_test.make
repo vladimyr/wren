@@ -105,8 +105,6 @@ LIBS += ../../lib/libwren_d.a
 LDDEPS += ../../lib/libwren_d.a
 ALL_LDFLAGS += $(LDFLAGS)
 
-else
-  $(error "invalid configuration $(config)")
 endif
 
 # Per File Configurations
@@ -116,8 +114,28 @@ endif
 # File sets
 # #############################################
 
+GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/api_tests.o
+GENERATED += $(OBJDIR)/benchmark.o
+GENERATED += $(OBJDIR)/call.o
+GENERATED += $(OBJDIR)/call_calls_foreign.o
+GENERATED += $(OBJDIR)/call_wren_call_root.o
+GENERATED += $(OBJDIR)/error.o
+GENERATED += $(OBJDIR)/foreign_class.o
+GENERATED += $(OBJDIR)/get_variable.o
+GENERATED += $(OBJDIR)/handle.o
+GENERATED += $(OBJDIR)/lists.o
+GENERATED += $(OBJDIR)/main.o
+GENERATED += $(OBJDIR)/maps.o
+GENERATED += $(OBJDIR)/new_vm.o
+GENERATED += $(OBJDIR)/reset_stack_after_call_abort.o
+GENERATED += $(OBJDIR)/reset_stack_after_foreign_construct.o
+GENERATED += $(OBJDIR)/resolution.o
+GENERATED += $(OBJDIR)/slots.o
+GENERATED += $(OBJDIR)/test.o
+GENERATED += $(OBJDIR)/user_data.o
 OBJECTS += $(OBJDIR)/api_tests.o
 OBJECTS += $(OBJDIR)/benchmark.o
 OBJECTS += $(OBJDIR)/call.o
@@ -129,6 +147,7 @@ OBJECTS += $(OBJDIR)/get_variable.o
 OBJECTS += $(OBJDIR)/handle.o
 OBJECTS += $(OBJDIR)/lists.o
 OBJECTS += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/maps.o
 OBJECTS += $(OBJDIR)/new_vm.o
 OBJECTS += $(OBJDIR)/reset_stack_after_call_abort.o
 OBJECTS += $(OBJDIR)/reset_stack_after_foreign_construct.o
@@ -143,7 +162,7 @@ OBJECTS += $(OBJDIR)/user_data.o
 all: $(TARGET)
 	@:
 
-$(TARGET): $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
+$(TARGET): $(GENERATED) $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
 	$(PRELINKCMDS)
 	@echo Linking wren_test
 	$(SILENT) $(LINKCMD)
@@ -169,9 +188,11 @@ clean:
 	@echo Cleaning wren_test
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
+	$(SILENT) rm -rf $(GENERATED)
 	$(SILENT) rm -rf $(OBJDIR)
 else
 	$(SILENT) if exist $(subst /,\\,$(TARGET)) del $(subst /,\\,$(TARGET))
+	$(SILENT) if exist $(subst /,\\,$(GENERATED)) rmdir /s /q $(subst /,\\,$(GENERATED))
 	$(SILENT) if exist $(subst /,\\,$(OBJDIR)) rmdir /s /q $(subst /,\\,$(OBJDIR))
 endif
 
@@ -225,6 +246,9 @@ $(OBJDIR)/handle.o: ../../test/api/handle.c
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/lists.o: ../../test/api/lists.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/maps.o: ../../test/api/maps.c
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/new_vm.o: ../../test/api/new_vm.c
